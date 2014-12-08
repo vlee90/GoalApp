@@ -11,6 +11,7 @@ import UIKit
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     
+    var goalArray = [1,2,3]
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTable()
@@ -54,29 +55,42 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var viewsInNib = NSBundle.mainBundle().loadNibNamed("HeaderView", owner: self, options: nil)
-        var returnView: HeaderView
-        for view in viewsInNib {
-            if let view = view as? HeaderView {
-                returnView = view
-                if section == 0 {
-                    returnView.sectionButton.setTitle("Goals", forState: UIControlState.Normal)
-                    return returnView
-                }
-                else if section == 1 {
-                    returnView.sectionButton.setTitle("Objectives", forState: UIControlState.Normal)
-                    return returnView
-                }
-                else {
-                    returnView.sectionButton.setTitle("Steps", forState: UIControlState.Normal)
-                    return returnView
-                }
-                
-            }
+        var returnView = UIView(frame: CGRectMake(0, 0, self.tableView.frame.width, self.tableView.frame.height * 0.1))
+        returnView.backgroundColor = UIColor.redColor()
+        var sectionButton = UIButton(frame: returnView.frame)
+        sectionButton.userInteractionEnabled = true
+        sectionButton.addTarget(self, action: "sectionButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        returnView.addSubview(sectionButton)
+        
+        if section == 0 {
+            sectionButton.setTitle("Goals", forState: UIControlState.Normal)
+            return returnView
         }
-        return nil
+        else if section == 1 {
+            sectionButton.setTitle("Objectives", forState: UIControlState.Normal)
+            return returnView
+        }
+        else {
+            sectionButton.setTitle("Steps", forState: UIControlState.Normal)
+            return returnView
+        }
     }
-
+    
+    func sectionButtonPressed(sender: UIButton) {
+        if sender.titleLabel!.text! == "Goals" {
+            println("1")
+        }
+        else if sender.titleLabel!.text! == "Objectives" {
+            println("2")
+        }
+        else {
+            println("3")
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return self.view.frame.height * 0.1
+    }
 
     func setUpTable() {
         tableView.dataSource = self

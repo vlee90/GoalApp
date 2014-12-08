@@ -20,8 +20,6 @@
 		EB9F11C81A32727200A6BFA4 /* ObjectiveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB9F11C61A32727200A6BFA4 /* ObjectiveTableViewCell.xib */; };
 		EB9F11CB1A32727D00A6BFA4 /* StepTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9F11C91A32727D00A6BFA4 /* StepTableViewCell.swift */; };
 		EB9F11CC1A32727D00A6BFA4 /* StepTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB9F11CA1A32727D00A6BFA4 /* StepTableViewCell.xib */; };
-		EBB1B13A1A3526A10076059C /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1B1391A3526A10076059C /* HeaderView.swift */; };
-		EBB1B13C1A3526B30076059C /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBB1B13B1A3526B30076059C /* HeaderView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +50,6 @@
 		EB9F11C61A32727200A6BFA4 /* ObjectiveTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObjectiveTableViewCell.xib; sourceTree = "<group>"; };
 		EB9F11C91A32727D00A6BFA4 /* StepTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepTableViewCell.swift; sourceTree = "<group>"; };
 		EB9F11CA1A32727D00A6BFA4 /* StepTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StepTableViewCell.xib; sourceTree = "<group>"; };
-		EBB1B1391A3526A10076059C /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
-		EBB1B13B1A3526B30076059C /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HeaderView.xib; path = ../HeaderView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,7 +130,6 @@
 		EB7B19A31A305D4700A714E9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				EBB1B1391A3526A10076059C /* HeaderView.swift */,
 				EB9F11C11A32726000A6BFA4 /* GoalTableViewCell.swift */,
 				EB9F11C51A32727200A6BFA4 /* ObjectiveTableViewCell.swift */,
 				EB9F11C91A32727D00A6BFA4 /* StepTableViewCell.swift */,
@@ -145,7 +140,6 @@
 		EB7B19A41A305D4D00A714E9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EBB1B13B1A3526B30076059C /* HeaderView.xib */,
 				EB9F11C21A32726000A6BFA4 /* GoalTableViewCell.xib */,
 				EB9F11C61A32727200A6BFA4 /* ObjectiveTableViewCell.xib */,
 				EB9F11CA1A32727D00A6BFA4 /* StepTableViewCell.xib */,
@@ -249,7 +243,6 @@
 				EB7B19891A2FF7AF00A714E9 /* Main.storyboard in Resources */,
 				EB7B198E1A2FF7AF00A714E9 /* LaunchScreen.xib in Resources */,
 				EB7B198B1A2FF7AF00A714E9 /* Images.xcassets in Resources */,
-				EBB1B13C1A3526B30076059C /* HeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +266,6 @@
 				EB9F11CB1A32727D00A6BFA4 /* StepTableViewCell.swift in Sources */,
 				EB7B19811A2FF7AF00A714E9 /* AppDelegate.swift in Sources */,
 				EB63DB2B1A32685D0070C125 /* MainViewController.swift in Sources */,
-				EBB1B13A1A3526A10076059C /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
