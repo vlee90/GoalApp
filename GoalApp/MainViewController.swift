@@ -12,6 +12,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var tableView: UITableView!
     
     var goalArray = [1,2,3]
+    var goalTableOpen = true
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTable()
@@ -40,7 +41,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 3
+            return goalArray.count
         }
         else if section == 1 {
             return 1
@@ -79,6 +80,20 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func sectionButtonPressed(sender: UIButton) {
         if sender.titleLabel!.text! == "Goals" {
             println("1")
+            switch goalTableOpen {
+            case true:
+                goalArray = []
+                tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                goalTableOpen = false
+                println(goalTableOpen)
+            case false:
+                goalArray = [1,2,3]
+                tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                goalTableOpen = true
+                println(goalTableOpen)
+            default:
+                println("ERROR: goalTableOpen = nil")
+            }
         }
         else if sender.titleLabel!.text! == "Objectives" {
             println("2")
