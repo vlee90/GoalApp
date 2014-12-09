@@ -10,4 +10,8 @@ import Foundation
 
 class User {
     var goalArray: [Goal]?
+    
+    init(goals: [Goal]){
+        self.goalArray = goals
+    }
 }

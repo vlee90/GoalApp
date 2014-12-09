@@ -12,4 +12,10 @@ class Goal {
     var goal: String?
     var objectiveArray: [Objective]?
     var dueDate: NSDate?
+    
+    init(goal: String, objectives: [Objective], date: NSDate) {
+        self.goal = goal
+        self.objectiveArray = objectives
+        self.dueDate = date
+    }
 }

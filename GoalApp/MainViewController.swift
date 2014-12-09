@@ -13,6 +13,8 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     var goalArray = [1,2,3]
     var goalTableOpen = true
+    var storageController = StorageController.sharedInstance
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTable()

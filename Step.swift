@@ -11,4 +11,9 @@ import Foundation
 class Step {
     var step: String?
     var dueDate: NSDate?
+    
+    init(step: String, date: NSDate) {
+        self.step = step
+        self.dueDate = date
+    }
 }

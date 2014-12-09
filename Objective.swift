@@ -12,4 +12,10 @@ class Objective {
     var objective: String?
     var stepArray: [Step]?
     var dueDate: NSDate?
+    
+    init(objective: String, steps: [Step], date: NSDate) {
+        self.objective = objective
+        self.stepArray = steps
+        self.dueDate = date
+    }
 }
