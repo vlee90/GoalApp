@@ -85,12 +85,12 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             switch goalTableOpen {
             case true:
                 goalArray = []
-                tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
                 goalTableOpen = false
                 println(goalTableOpen)
             case false:
                 goalArray = [1,2,3]
-                tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
                 goalTableOpen = true
                 println(goalTableOpen)
             default:

@@ -17,14 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FP2-Dh-xd8">
-                                <rect key="frame" x="16" y="0.0" width="568" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="znL-5v-9Ui"/>
-                                </items>
-                            </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4p8-0H-3Qh">
-                                <rect key="frame" x="16" y="44" width="568" height="507"/>
+                                <rect key="frame" x="16" y="0.0" width="568" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="8tI-6c-nlO"/>
@@ -51,36 +45,89 @@
                         <constraints>
                             <constraint firstItem="PNn-PQ-4Hf" firstAttribute="top" secondItem="4p8-0H-3Qh" secondAttribute="bottom" id="0XS-Qz-bKe"/>
                             <constraint firstItem="4p8-0H-3Qh" firstAttribute="top" secondItem="Kbo-s7-AVW" secondAttribute="topMargin" id="4ep-VL-BTs"/>
-                            <constraint firstItem="4p8-0H-3Qh" firstAttribute="top" secondItem="FP2-Dh-xd8" secondAttribute="bottom" id="9Ni-c2-tRA"/>
                             <constraint firstItem="4p8-0H-3Qh" firstAttribute="top" secondItem="Kbo-s7-AVW" secondAttribute="topMargin" id="GVj-0j-WUy"/>
-                            <constraint firstItem="FP2-Dh-xd8" firstAttribute="top" secondItem="Kbo-s7-AVW" secondAttribute="topMargin" id="HWp-DV-9SW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4p8-0H-3Qh" secondAttribute="trailing" id="RtA-sa-3Ce"/>
-                            <constraint firstItem="FP2-Dh-xd8" firstAttribute="leading" secondItem="Kbo-s7-AVW" secondAttribute="leadingMargin" id="W24-Ak-XJv"/>
                             <constraint firstItem="4p8-0H-3Qh" firstAttribute="top" secondItem="U4I-VE-XoU" secondAttribute="bottom" id="XGy-3W-cmP"/>
-                            <constraint firstItem="4p8-0H-3Qh" firstAttribute="top" secondItem="FP2-Dh-xd8" secondAttribute="bottom" constant="10" id="gKE-CJ-NWU"/>
                             <constraint firstItem="4p8-0H-3Qh" firstAttribute="top" secondItem="U4I-VE-XoU" secondAttribute="bottom" id="kzC-9N-hwW"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="FP2-Dh-xd8" secondAttribute="trailing" id="nwL-2u-LqV"/>
                             <constraint firstItem="4p8-0H-3Qh" firstAttribute="leading" secondItem="Kbo-s7-AVW" secondAttribute="leadingMargin" id="prD-iL-Y7F"/>
+                            <constraint firstItem="4p8-0H-3Qh" firstAttribute="top" secondItem="Kbo-s7-AVW" secondAttribute="topMargin" id="uO7-ie-UQc"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="4ep-VL-BTs"/>
                                 <exclude reference="GVj-0j-WUy"/>
                                 <exclude reference="XGy-3W-cmP"/>
-                                <exclude reference="gKE-CJ-NWU"/>
                                 <exclude reference="kzC-9N-hwW"/>
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Goals" id="8KF-p4-cYZ"/>
-                    <navigationItem key="navigationItem" id="Y3d-Z4-T6p"/>
+                    <navigationItem key="navigationItem" id="Y3d-Z4-T6p">
+                        <barButtonItem key="rightBarButtonItem" title="+" id="A7x-k3-hVz">
+                            <connections>
+                                <segue destination="CWU-2j-qLE" kind="show" id="hh3-gU-AYx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="4p8-0H-3Qh" id="d0c-XN-Smy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d6y-NB-D43" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="629" y="969"/>
+            <point key="canvasLocation" x="991" y="1001"/>
+        </scene>
+        <!--Create View Controller-->
+        <scene sceneID="tn0-Ly-xBL">
+            <objects>
+                <viewController id="CWU-2j-qLE" customClass="CreateViewController" customModule="GoalApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5bh-K0-1vv"/>
+                        <viewControllerLayoutGuide type="bottom" id="aCl-qy-GdI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cnV-bp-QfE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Mkg-1G-QMN">
+                                <rect key="frame" x="36" y="316" width="528" height="162"/>
+                                <date key="date" timeIntervalSinceReferenceDate="439784164.689013">
+                                    <!--2014-12-09 02:16:04 +0000-->
+                                </date>
+                            </datePicker>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Type in Goal Here" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JY0-iU-3nj">
+                                <rect key="frame" x="26" y="84" width="548" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nsX-EE-Kwt">
+                                <rect key="frame" x="36" y="134" width="528" height="162"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="JY0-iU-3nj" secondAttribute="centerX" id="6IX-06-CIG"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="nsX-EE-Kwt" secondAttribute="trailing" constant="20" id="Bhr-zL-QFj"/>
+                            <constraint firstItem="JY0-iU-3nj" firstAttribute="top" secondItem="5bh-K0-1vv" secondAttribute="bottom" constant="20" id="Jtg-Ef-ecn"/>
+                            <constraint firstAttribute="centerX" secondItem="Mkg-1G-QMN" secondAttribute="centerX" id="VGP-UX-IXr"/>
+                            <constraint firstItem="nsX-EE-Kwt" firstAttribute="leading" secondItem="cnV-bp-QfE" secondAttribute="leadingMargin" constant="20" id="c9g-Ty-OO4"/>
+                            <constraint firstItem="Mkg-1G-QMN" firstAttribute="leading" secondItem="cnV-bp-QfE" secondAttribute="leadingMargin" constant="20" id="cen-hF-PxO"/>
+                            <constraint firstItem="Mkg-1G-QMN" firstAttribute="top" secondItem="nsX-EE-Kwt" secondAttribute="bottom" constant="20" id="fbc-C7-rjJ"/>
+                            <constraint firstItem="nsX-EE-Kwt" firstAttribute="top" secondItem="JY0-iU-3nj" secondAttribute="bottom" constant="20" id="fmp-JP-RMm"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="JY0-iU-3nj" secondAttribute="trailing" constant="10" id="iNg-2F-nj9"/>
+                            <constraint firstAttribute="centerX" secondItem="nsX-EE-Kwt" secondAttribute="centerX" id="jsU-6L-QJB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Mkg-1G-QMN" secondAttribute="trailing" constant="20" id="wAY-2a-ouN"/>
+                            <constraint firstItem="JY0-iU-3nj" firstAttribute="leading" secondItem="cnV-bp-QfE" secondAttribute="leadingMargin" constant="10" id="ym5-PN-kVi"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="datePicker" destination="Mkg-1G-QMN" id="2c3-57-s6c"/>
+                        <outlet property="pickerView" destination="nsX-EE-Kwt" id="CXH-Le-5c6"/>
+                        <outlet property="textField" destination="JY0-iU-3nj" id="vnT-fs-gg3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pyi-q7-9P4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1694" y="1009"/>
         </scene>
         <!--Calander-->
         <scene sceneID="Yce-Ut-3rC">
@@ -101,6 +148,23 @@
             </objects>
             <point key="canvasLocation" x="236" y="86"/>
         </scene>
+        <!--NavCont-->
+        <scene sceneID="uEj-jv-wqT">
+            <objects>
+                <navigationController title="NavCont" id="Eqf-d3-rFN" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Goal" id="PMT-Vk-Pls"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QzV-24-Bxc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="71F-xG-117" kind="relationship" relationship="rootViewController" id="LhY-4v-tvp"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hnU-Xx-iZi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="254" y="1001"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Gzg-60-3QW">
             <objects>
@@ -113,7 +177,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="Yb4-SB-DpY" kind="relationship" relationship="viewControllers" id="SFb-oT-R8p"/>
-                        <segue destination="71F-xG-117" kind="relationship" relationship="viewControllers" id="RiY-QT-b3M"/>
+                        <segue destination="Eqf-d3-rFN" kind="relationship" relationship="viewControllers" id="5pd-01-rvT"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w7g-9W-dZk" userLabel="First Responder" sceneMemberID="firstResponder"/>

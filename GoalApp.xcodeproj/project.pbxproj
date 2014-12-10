@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB53F1881A384AC100E08EB0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB53F1871A384AC100E08EB0 /* Constants.swift */; };
 		EB63DB2B1A32685D0070C125 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB63DB2A1A32685D0070C125 /* MainViewController.swift */; };
 		EB7B19811A2FF7AF00A714E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7B19801A2FF7AF00A714E9 /* AppDelegate.swift */; };
 		EB7B19841A2FF7AF00A714E9 /* GoalApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EB7B19821A2FF7AF00A714E9 /* GoalApp.xcdatamodeld */; };
@@ -25,6 +26,7 @@
 		EBB1B1421A3684230076059C /* Objective.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1B1411A3684230076059C /* Objective.swift */; };
 		EBB1B1441A36842C0076059C /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1B1431A36842C0076059C /* Step.swift */; };
 		EBB1B1481A3685770076059C /* StorageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1B1471A3685770076059C /* StorageController.swift */; };
+		EBB1B14C1A3692740076059C /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB1B14B1A3692740076059C /* CreateViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB53F1871A384AC100E08EB0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EB63DB2A1A32685D0070C125 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		EB7B197B1A2FF7AF00A714E9 /* GoalApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoalApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB7B197F1A2FF7AF00A714E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -60,6 +63,7 @@
 		EBB1B1411A3684230076059C /* Objective.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Objective.swift; path = ../Objective.swift; sourceTree = "<group>"; };
 		EBB1B1431A36842C0076059C /* Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Step.swift; path = ../Step.swift; sourceTree = "<group>"; };
 		EBB1B1471A3685770076059C /* StorageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageController.swift; sourceTree = "<group>"; };
+		EBB1B14B1A3692740076059C /* CreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateViewController.swift; path = ../CreateViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				EB7B19801A2FF7AF00A714E9 /* AppDelegate.swift */,
+				EB53F1871A384AC100E08EB0 /* Constants.swift */,
 				EB7B19A51A305D5100A714E9 /* Controller */,
 				EB7B19A31A305D4700A714E9 /* Model */,
 				EB7B19A41A305D4D00A714E9 /* View */,
@@ -162,8 +167,9 @@
 		EB7B19A51A305D5100A714E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				EBB1B1471A3685770076059C /* StorageController.swift */,
+				EBB1B14B1A3692740076059C /* CreateViewController.swift */,
 				EB63DB2A1A32685D0070C125 /* MainViewController.swift */,
+				EBB1B1471A3685770076059C /* StorageController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -298,7 +304,9 @@
 				EB9F11C71A32727200A6BFA4 /* ObjectiveTableViewCell.swift in Sources */,
 				EBB1B1481A3685770076059C /* StorageController.swift in Sources */,
 				EB9F11CB1A32727D00A6BFA4 /* StepTableViewCell.swift in Sources */,
+				EB53F1881A384AC100E08EB0 /* Constants.swift in Sources */,
 				EB7B19811A2FF7AF00A714E9 /* AppDelegate.swift in Sources */,
+				EBB1B14C1A3692740076059C /* CreateViewController.swift in Sources */,
 				EBB1B1441A36842C0076059C /* Step.swift in Sources */,
 				EB63DB2B1A32685D0070C125 /* MainViewController.swift in Sources */,
 				EBB1B13E1A3683FD0076059C /* User.swift in Sources */,
