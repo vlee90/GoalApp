@@ -8,19 +8,29 @@
 
 import UIKit
 
-class CreateViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class CreateViewController: UIViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var createButton: UIButton!
     
-    var type = kCreationType.Goal.rawValue
+    var type: String!
+    let dateFormatter = StorageController.sharedInstance.dateFormatter
+    let storageController = StorageController.sharedInstance
+    var user = User()
+    var goalArray = [Goal]()
+    var objectiveArray = [Objective]()
+    var stepArray = [Step]()
+    var selectedGoalIndex: Int?
+    var selectedObjectiveIndex: Int?
+    var selectedStepIndex: Int?
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        pickerView.dataSource = self
-        pickerView.delegate = self
+        setupValues()
+        setTextFieldText()
+        datePicker.datePickerMode = UIDatePickerMode.Date
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,33 +38,62 @@ class CreateViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         // Dispose of any resources that can be recreated.
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch(row) {
-        case 0:
-            type = kCreationType.Goal.rawValue
-        case 1:
-            type = kCreationType.Objective.rawValue
-        default:
-            type = kCreationType.Step.rawValue
+    @IBAction func createButtonPressed(sender: AnyObject) {
+        let formattedDate = dateFormatter.stringFromDate(datePicker.date)
+        if type == kCreationType.Goal.rawValue {
+            let goal = Goal(goal: textField.text, date: formattedDate)
+            goalArray.append(goal)
+        }
+        else if type == kCreationType.Objective.rawValue {
+            let objective = Objective(objective: textField.text, date: formattedDate)
+            objectiveArray.append(objective)
+        }
+        else {
+            let step = Step(step: textField.text, date: formattedDate)
+            stepArray.append(step)
+        }
+        saveValues()
+        navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    func setTextFieldText() {
+        if type == "Goal" {
+            textField.placeholder = "Type Goal Here:"
+        }
+        else if type == "Objective" {
+            textField.placeholder = "Type Objective Here:"
+        }
+        else {
+            textField.placeholder = "Type Step Here:"
         }
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        switch(row) {
-        case 0:
-            return "Goal"
-        case 1:
-            return "Objective"
-        default:
-            return "Step"
+    func setupValues() {
+        user = storageController.user
+        goalArray = user.goalArray
+        selectedGoalIndex = storageController.selectedGoalIndex
+        selectedObjectiveIndex = storageController.selectedObjectiveIndex
+        selectedStepIndex = storageController.selectedStepIndex
+        if selectedGoalIndex != nil {
+            objectiveArray = goalArray[selectedGoalIndex!].objectiveArray
+        }
+        if selectedObjectiveIndex != nil {
+            stepArray = objectiveArray[selectedObjectiveIndex!].stepArray
         }
     }
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 3
+    func saveValues() {
+        storageController.user = user
+        storageController.user.goalArray = goalArray
+        storageController.selectedGoalIndex = selectedGoalIndex
+        storageController.selectedObjectiveIndex = selectedObjectiveIndex
+        storageController.selectedStepIndex = selectedStepIndex
+        if selectedGoalIndex != nil {
+            storageController.user.goalArray[selectedGoalIndex!].objectiveArray = objectiveArray
+        }
+        if selectedObjectiveIndex != nil && selectedGoalIndex != nil {
+            storageController.user.goalArray[selectedGoalIndex!].objectiveArray[selectedObjectiveIndex!].stepArray = stepArray
+        }
+        
     }
 }

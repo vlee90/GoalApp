@@ -11,32 +11,80 @@ import UIKit
 class MainViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     
-    var goalArray = [1,2,3]
     var goalTableOpen = true
-    var storageController = StorageController.sharedInstance
+    var goalCellSelected = false
+    var objectiveCellSelected = false
+    
+    let storageController = StorageController.sharedInstance
+    var user = User()
+    var goalArray = [Goal]()
+    var objectiveArray = [Objective]()
+    var stepArray = [Step]()
+    var selectedGoalIndex: Int?
+    var selectedObjectiveIndex: Int?
+    var selectedStepIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTable()
-        
+        setupValues()
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        setupValues()
+//        tableView.reloadData()
+        let range: NSRange = NSMakeRange(0, 3)
+        tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Fade)
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        switch indexPath.section {
+        case 0:
+            selectedGoalIndex = indexPath.row
+            storageController.selectedGoalIndex = selectedGoalIndex
+            let selectedGoal = goalArray[selectedGoalIndex!]
+            objectiveArray = selectedGoal.objectiveArray
+            goalCellSelected = true
+            tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
+        case 1:
+            selectedObjectiveIndex = indexPath.row
+            storageController.selectedObjectiveIndex = selectedObjectiveIndex
+            let selectedObjective = objectiveArray[selectedObjectiveIndex!]
+            stepArray = selectedObjective.stepArray
+            objectiveCellSelected = true
+            tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
+        default:
+            println("step")
+        }
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("GOAL_CELL", forIndexPath: indexPath) as GoalTableViewCell
+            cell.goalLabel.text = goalArray[indexPath.row].goal
+            cell.dateLabel.text = goalArray[indexPath.row].dueDate
+            if cell.cellSelected == true {
+                cell.backgroundColor = UIColor.redColor()
+            }
             return cell
         }
         else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCellWithIdentifier("OBJECTIVE_CELL", forIndexPath: indexPath) as ObjectiveTableViewCell
+            cell.objectiveLabel.text = objectiveArray[indexPath.row].objective
+            cell.dateLabel.text = objectiveArray[indexPath.row].dueDate
             return cell
         }
         else {
             let cell = tableView.dequeueReusableCellWithIdentifier("STEP_CELL", forIndexPath: indexPath) as StepTableViewCell
+            cell.stepLabel.text = stepArray[indexPath.row].step
+            cell.dateLabel.text = stepArray[indexPath.row].dueDate
             return cell
         }
     }
@@ -46,10 +94,10 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return goalArray.count
         }
         else if section == 1 {
-            return 1
+            return objectiveArray.count
         }
         else {
-            return 2
+            return stepArray.count
         }
     }
     
@@ -57,58 +105,103 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return 3
     }
     
+    
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var returnView = UIView(frame: CGRectMake(0, 0, self.tableView.frame.width, self.tableView.frame.height * 0.1))
-        returnView.backgroundColor = UIColor.redColor()
-        var sectionButton = UIButton(frame: returnView.frame)
+        //Create View
+        var sectionView = UIView(frame: CGRectMake(0, 0, tableView.frame.width, tableView.frame.height * 0.05))
+        
+        //Create sectionButton
+        let sectionButton = UIButton(frame: sectionView.frame)
+        sectionButton.backgroundColor = UIColor.yellowColor()
         sectionButton.userInteractionEnabled = true
         sectionButton.addTarget(self, action: "sectionButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
-        returnView.addSubview(sectionButton)
+        sectionButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+        sectionButton.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+        sectionView.addSubview(sectionButton)
         
+        //Create createButton
+        let createButton = UIButton(frame: CGRectMake(sectionButton.frame.width * 0.9, sectionButton.frame.height * 0.25, sectionButton.frame.height * 0.5, sectionButton.frame.height * 0.5))
+        createButton.backgroundColor = UIColor.greenColor()
+        createButton.addTarget(self, action: "createButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        createButton.setTitle("+", forState: UIControlState.Normal)
+        createButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+        createButton.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
+        
+        //Populate Sections
+        //Only can create Goal
         if section == 0 {
-            sectionButton.setTitle("Goals", forState: UIControlState.Normal)
-            return returnView
+            sectionView.addSubview(createButton)
+            createButton.tag = 0
+            sectionButton.setTitle(kCreationType.Goal.rawValue, forState: UIControlState.Normal)
+            return sectionView
         }
         else if section == 1 {
-            sectionButton.setTitle("Objectives", forState: UIControlState.Normal)
-            return returnView
+            sectionView.addSubview(createButton)
+            createButton.tag = 1
+            sectionButton.setTitle(kCreationType.Objective.rawValue, forState: UIControlState.Normal)
+            return sectionView
         }
         else {
-            sectionButton.setTitle("Steps", forState: UIControlState.Normal)
-            return returnView
+            sectionView.addSubview(createButton)
+            createButton.tag = 2
+            sectionButton.setTitle(kCreationType.Step.rawValue, forState: UIControlState.Normal)
+            return sectionView
         }
     }
     
     func sectionButtonPressed(sender: UIButton) {
-        if sender.titleLabel!.text! == "Goals" {
-            println("1")
-            switch goalTableOpen {
-            case true:
+        if sender.titleLabel!.text! == kCreationType.Goal.rawValue {
+            if goalTableOpen == true && goalArray.count != 0{
                 goalArray = []
                 tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
                 goalTableOpen = false
-                println(goalTableOpen)
-            case false:
-                goalArray = [1,2,3]
+            }
+            else if goalTableOpen == false {
+                goalArray = user.goalArray
                 tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
                 goalTableOpen = true
-                println(goalTableOpen)
-            default:
-                println("ERROR: goalTableOpen = nil")
             }
         }
-        else if sender.titleLabel!.text! == "Objectives" {
-            println("2")
+        else if sender.titleLabel!.text! == kCreationType.Objective.rawValue {
+            //add
         }
         else {
-            println("3")
+            //add
         }
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return self.view.frame.height * 0.1
+    func createButtonPressed(sender: UIButton) {
+        let toVC = self.storyboard?.instantiateViewControllerWithIdentifier(kStoryboardID.CreateVC.rawValue) as CreateViewController
+        switch (sender.tag) {
+        case 0:
+            toVC.type = kCreationType.Goal.rawValue
+            navigationController?.pushViewController(toVC, animated: true)
+        case 1:
+            if goalCellSelected == true {
+                toVC.type = kCreationType.Objective.rawValue
+                navigationController?.pushViewController(toVC, animated: true)
+            }
+            else {
+                let alertController = UIAlertController(title: "Attention", message: "Select a goal to add an objective to.", preferredStyle: UIAlertControllerStyle.Alert)
+                let alertCancel = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Cancel, handler: nil)
+                alertController.addAction(alertCancel)
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
+        default:
+            if goalCellSelected == true && objectiveCellSelected == true {
+                toVC.type = kCreationType.Step.rawValue
+                navigationController?.pushViewController(toVC, animated: true)
+            }
+            else {
+                let alertController = UIAlertController(title: "Attention", message: "Select an objective to add a step to.", preferredStyle: UIAlertControllerStyle.Alert)
+                let alertCancel = UIAlertAction(title: "Confirm", style: UIAlertActionStyle.Cancel, handler: nil)
+                alertController.addAction(alertCancel)
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
     }
-
+    
+    //  Sets table delegation/dataSource/Nibs
     func setUpTable() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -120,4 +213,18 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.registerNib(stepNib, forCellReuseIdentifier: "STEP_CELL")
     }
     
+    //  Pulls values from storageController
+    func setupValues() {
+        user = storageController.user
+        goalArray = user.goalArray
+        selectedGoalIndex = storageController.selectedGoalIndex
+        selectedObjectiveIndex = storageController.selectedObjectiveIndex
+        selectedStepIndex = storageController.selectedStepIndex
+        if selectedGoalIndex != nil {
+            objectiveArray = goalArray[selectedGoalIndex!].objectiveArray
+        }
+        if selectedObjectiveIndex != nil {
+            stepArray = objectiveArray[selectedObjectiveIndex!].stepArray
+        }
+    }
 }

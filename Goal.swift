@@ -9,13 +9,12 @@
 import Foundation
 
 class Goal {
-    var goal: String?
-    var objectiveArray: [Objective]?
-    var dueDate: NSDate?
+    var goal: String
+    var objectiveArray = [Objective]()
+    var dueDate: String
     
-    init(goal: String, objectives: [Objective], date: NSDate) {
+    init(goal: String, date: String) {
         self.goal = goal
-        self.objectiveArray = objectives
         self.dueDate = date
     }
 }

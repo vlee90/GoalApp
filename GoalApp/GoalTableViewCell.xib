@@ -39,6 +39,10 @@
                     <constraint firstAttribute="bottomMargin" secondItem="YHi-4k-hfo" secondAttribute="bottom" constant="10" id="yNl-BS-vTG"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="dateLabel" destination="YHi-4k-hfo" id="lSS-HO-wij"/>
+                <outlet property="goalLabel" destination="kvF-LV-y4k" id="Wp2-ev-y5a"/>
+            </connections>
             <point key="canvasLocation" x="331.5" y="242"/>
         </tableViewCell>
     </objects>

@@ -9,13 +9,9 @@
 import Foundation
 
 class User {
-    var goalArray: [Goal]?
+    var goalArray = [Goal]()
     
     init() {
         
-    }
-    
-    init(goals: [Goal]){
-        self.goalArray = goals
     }
 }

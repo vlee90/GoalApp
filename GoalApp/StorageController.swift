@@ -11,6 +11,10 @@ import Foundation
 class StorageController {
     
     var user = User()
+    let dateFormatter = NSDateFormatter()
+    var selectedGoalIndex: Int?
+    var selectedObjectiveIndex: Int?
+    var selectedStepIndex: Int?
     
     class var sharedInstance : StorageController {
         struct Static {

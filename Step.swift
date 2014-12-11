@@ -9,10 +9,10 @@
 import Foundation
 
 class Step {
-    var step: String?
-    var dueDate: NSDate?
+    var step: String
+    var dueDate: String
     
-    init(step: String, date: NSDate) {
+    init(step: String, date: String) {
         self.step = step
         self.dueDate = date
     }

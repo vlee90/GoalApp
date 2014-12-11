@@ -13,3 +13,7 @@ enum kCreationType: String {
     case Objective = "Objective"
     case Step = "Step"
 }
+
+enum kStoryboardID: String {
+    case CreateVC = "CREATE_VC"
+}
