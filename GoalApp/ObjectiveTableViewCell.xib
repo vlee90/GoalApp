@@ -39,6 +39,10 @@
                     <constraint firstAttribute="centerY" secondItem="Sfi-Hy-htf" secondAttribute="centerY" id="wvT-H5-ALw"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="dateLabel" destination="81P-X6-Ohm" id="QpC-iz-MxK"/>
+                <outlet property="objectiveLabel" destination="Sfi-Hy-htf" id="hyV-kJ-lkw"/>
+            </connections>
             <point key="canvasLocation" x="308.5" y="200.5"/>
         </tableViewCell>
     </objects>

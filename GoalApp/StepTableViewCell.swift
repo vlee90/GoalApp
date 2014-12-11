@@ -9,7 +9,9 @@
 import UIKit
 
 class StepTableViewCell: UITableViewCell {
-
+    @IBOutlet weak var stepLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

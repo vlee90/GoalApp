@@ -9,8 +9,9 @@
 import UIKit
 
 class GoalTableViewCell: UITableViewCell {
-    @IBOutlet weak var label: UILabel!
-    
+    @IBOutlet weak var goalLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    var cellSelected: Bool?
     
     override func awakeFromNib() {
         super.awakeFromNib()

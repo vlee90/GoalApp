@@ -39,6 +39,10 @@
                     <constraint firstItem="Zhn-ol-XPj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="10" id="wfj-JZ-Kud"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="dateLabel" destination="Zhn-ol-XPj" id="97O-S1-TAd"/>
+                <outlet property="stepLabel" destination="5Ha-wS-EgQ" id="lf8-nU-w3w"/>
+            </connections>
             <point key="canvasLocation" x="303" y="202"/>
         </tableViewCell>
     </objects>
