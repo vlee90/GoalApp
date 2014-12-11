@@ -15,6 +15,7 @@ class StorageController {
     var selectedGoalIndex: Int?
     var selectedObjectiveIndex: Int?
     var selectedStepIndex: Int?
+    var selectedRows = [NSIndexPath]()
     
     class var sharedInstance : StorageController {
         struct Static {
