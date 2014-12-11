@@ -12,6 +12,10 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var tableView: UITableView!
     
     var goalTableOpen = true
+    var objectiveTableOpen = true
+    var stepTableOpen = true
+    
+    
     var goalCellSelected = false
     var objectiveCellSelected = false
     
@@ -36,7 +40,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         setupValues()
-//        tableView.reloadData()
         let range: NSRange = NSMakeRange(0, 3)
         tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Fade)
         selectPreviousCells()
@@ -177,16 +180,36 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     goalArray = []
                 }
                 tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+                selectPreviousCells()
                 goalTableOpen = false
             }
             else if goalTableOpen == false {
                 goalArray = user.goalArray
                 tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+                selectPreviousCells()
                 goalTableOpen = true
             }
         }
         else if sender.titleLabel!.text! == kCreationType.Objective.rawValue {
-            //add
+            if objectiveTableOpen == true && objectiveArray.count != 0 {
+                if let indexPaths = tableView.indexPathsForSelectedRows() as? [NSIndexPath] {
+                    for selectedIndexPath in indexPaths {
+                        if selectedIndexPath.section == 1 {
+                            objectiveArray = [objectiveArray[selectedIndexPath.row]]
+                        }
+                    }
+                }
+                else {
+                    objectiveArray = []
+                }
+                tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
+                objectiveTableOpen = false
+            }
+            else if objectiveTableOpen == false {
+                objectiveArray = user.goalArray[selectedGoalIndex!].objectiveArray
+                tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
+                objectiveTableOpen = true
+            }
         }
         else {
             //add
