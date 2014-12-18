@@ -20,9 +20,9 @@ class CreateViewController: UIViewController {
     var goalArray = [Goal]()
     var objectiveArray = [Objective]()
     var stepArray = [Step]()
-    var selectedGoalIndex: Int?
-    var selectedObjectiveIndex: Int?
-    var selectedStepIndex: Int?
+    var selectedGoalIndexPath: NSIndexPath?
+    var selectedObjectiveIndexPath: NSIndexPath?
+    var selectedStepIndexPath: NSIndexPath?
     
 
     override func viewDidLoad() {
@@ -71,28 +71,28 @@ class CreateViewController: UIViewController {
     func setupValues() {
         user = storageController.user
         goalArray = user.goalArray
-        selectedGoalIndex = storageController.selectedGoalIndex
-        selectedObjectiveIndex = storageController.selectedObjectiveIndex
-        selectedStepIndex = storageController.selectedStepIndex
-        if selectedGoalIndex != nil {
-            objectiveArray = goalArray[selectedGoalIndex!].objectiveArray
+        selectedGoalIndexPath = storageController.selectedGoalIndexPath
+        selectedObjectiveIndexPath = storageController.selectedObjectiveIndexPath
+        selectedStepIndexPath = storageController.selectedStepIndexPath
+        if selectedGoalIndexPath != nil {
+            objectiveArray = goalArray[selectedGoalIndexPath!.row].objectiveArray
         }
-        if selectedObjectiveIndex != nil {
-            stepArray = objectiveArray[selectedObjectiveIndex!].stepArray
+        if selectedObjectiveIndexPath != nil {
+            stepArray = objectiveArray[selectedObjectiveIndexPath!.row].stepArray
         }
     }
     
     func saveValues() {
         storageController.user = user
         storageController.user.goalArray = goalArray
-        storageController.selectedGoalIndex = selectedGoalIndex
-        storageController.selectedObjectiveIndex = selectedObjectiveIndex
-        storageController.selectedStepIndex = selectedStepIndex
-        if selectedGoalIndex != nil {
-            storageController.user.goalArray[selectedGoalIndex!].objectiveArray = objectiveArray
+        storageController.selectedGoalIndexPath = selectedGoalIndexPath
+        storageController.selectedObjectiveIndexPath = selectedObjectiveIndexPath
+        storageController.selectedStepIndexPath = selectedStepIndexPath
+        if selectedGoalIndexPath != nil {
+            storageController.user.goalArray[selectedGoalIndexPath!.row].objectiveArray = objectiveArray
         }
-        if selectedObjectiveIndex != nil && selectedGoalIndex != nil {
-            storageController.user.goalArray[selectedGoalIndex!].objectiveArray[selectedObjectiveIndex!].stepArray = stepArray
+        if selectedObjectiveIndexPath != nil && selectedGoalIndexPath != nil {
+            storageController.user.goalArray[selectedGoalIndexPath!.row].objectiveArray[selectedObjectiveIndexPath!.row].stepArray = stepArray
         }
         
     }

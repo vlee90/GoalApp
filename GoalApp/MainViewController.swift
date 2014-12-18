@@ -24,11 +24,9 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var goalArray = [Goal]()
     var objectiveArray = [Objective]()
     var stepArray = [Step]()
-    var selectedGoalIndex: Int?
-    var selectedObjectiveIndex: Int?
-    var selectedStepIndex: Int?
-    
     var selectedGoalIndexPath: NSIndexPath?
+    var selectedObjectiveIndexPath: NSIndexPath?
+    var selectedStepIndexPath: NSIndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,17 +53,17 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         switch indexPath.section {
         case 0:
             println("IndexPath \(indexPath.row)")
-            selectedGoalIndex = indexPath.row
-            storageController.selectedGoalIndex = selectedGoalIndex
-            let selectedGoal = goalArray[selectedGoalIndex!]
+            selectedGoalIndexPath = indexPath
+            storageController.selectedGoalIndexPath = selectedGoalIndexPath
+            let selectedGoal = goalArray[selectedGoalIndexPath!.row]
             objectiveArray = selectedGoal.objectiveArray
             goalCellSelected = true
             tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
         case 1:
             println("IndexPath \(indexPath.row)")
-            selectedObjectiveIndex = indexPath.row
-            storageController.selectedObjectiveIndex = selectedObjectiveIndex
-            let selectedObjective = objectiveArray[selectedObjectiveIndex!]
+            selectedObjectiveIndexPath = indexPath
+            storageController.selectedObjectiveIndexPath = selectedObjectiveIndexPath
+            let selectedObjective = objectiveArray[selectedObjectiveIndexPath!.row]
             stepArray = selectedObjective.stepArray
             objectiveCellSelected = true
             tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
@@ -212,7 +210,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 objectiveTableOpen = false
             }
             else if objectiveTableOpen == false {
-                objectiveArray = user.goalArray[selectedGoalIndex!].objectiveArray
+                objectiveArray = user.goalArray[selectedGoalIndexPath!.row].objectiveArray
                 tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
                 objectiveTableOpen = true
             }
@@ -272,14 +270,14 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func setupValues() {
         user = storageController.user
         goalArray = user.goalArray
-        selectedGoalIndex = storageController.selectedGoalIndex
-        selectedObjectiveIndex = storageController.selectedObjectiveIndex
-        selectedStepIndex = storageController.selectedStepIndex
-        if selectedGoalIndex != nil {
-            objectiveArray = goalArray[selectedGoalIndex!].objectiveArray
+        selectedGoalIndexPath = storageController.selectedGoalIndexPath
+        selectedObjectiveIndexPath = storageController.selectedObjectiveIndexPath
+        selectedStepIndexPath = storageController.selectedStepIndexPath
+        if selectedGoalIndexPath != nil {
+            objectiveArray = goalArray[selectedGoalIndexPath!.row].objectiveArray
         }
-        if selectedObjectiveIndex != nil {
-            stepArray = objectiveArray[selectedObjectiveIndex!].stepArray
+        if selectedObjectiveIndexPath != nil {
+            stepArray = objectiveArray[selectedObjectiveIndexPath!.row].stepArray
         }
     }
 }
