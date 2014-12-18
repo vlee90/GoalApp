@@ -15,7 +15,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var objectiveTableOpen = true
     var stepTableOpen = true
     
-    
     var goalCellSelected = false
     var objectiveCellSelected = false
     
@@ -40,7 +39,13 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidAppear(animated)
         setupValues()
         let range: NSRange = NSMakeRange(0, 3)
+        let selectedRows = tableView.indexPathsForSelectedRows() as? [NSIndexPath]
         tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Fade)
+        if selectedRows != nil {
+            for index in selectedRows! {
+                tableView.selectRowAtIndexPath(index, animated: false, scrollPosition: UITableViewScrollPosition.None)
+            }
+        }
     }
     
 
@@ -52,26 +57,45 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch indexPath.section {
         case 0:
-            println("IndexPath \(indexPath.row)")
+            //  Save the selected goal's indexPath
             selectedGoalIndexPath = indexPath
             storageController.selectedGoalIndexPath = selectedGoalIndexPath
+            //  Loads objectives from the selected goal.
             let selectedGoal = goalArray[selectedGoalIndexPath!.row]
             objectiveArray = selectedGoal.objectiveArray
             goalCellSelected = true
             tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
         case 1:
-            println("IndexPath \(indexPath.row)")
+            //  Save the selected objective's indexPath
             selectedObjectiveIndexPath = indexPath
             storageController.selectedObjectiveIndexPath = selectedObjectiveIndexPath
+            println(selectedObjectiveIndexPath!.row)
+            //  Loads steps from the selected objective
             let selectedObjective = objectiveArray[selectedObjectiveIndexPath!.row]
             stepArray = selectedObjective.stepArray
             objectiveCellSelected = true
             tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
         default:
-            println("step")
+            // Save the selected step's indexPath
+            selectedStepIndexPath = indexPath
+            storageController.selectedStepIndexPath = selectedStepIndexPath
         }
     }
     
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        switch indexPath.section {
+        case 0:
+            goalCellSelected = false
+            println("Goal was deselected")
+        case 1:
+            objectiveCellSelected = false
+            println("Objective was deselected")
+        default:
+            println("Step was deselected")
+        }
+    }
+    
+    // Used to deselect cell when new cell is selected in the same section.
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
         // Grabs an array of all indexPaths for all selected Rows in the tableview.
         if let indexPaths = tableView.indexPathsForSelectedRows() as? [NSIndexPath] {
@@ -82,7 +106,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 // Will only look at selected indexes within the section in question.
                 if selectedIndexPath.section == indexPath.section {
                     // deselects row that was selected before from the table.
-                    tableView.deselectRowAtIndexPath(selectedIndexPath, animated: true)
+                    tableView.deselectRowAtIndexPath(selectedIndexPath, animated: false)
                 }
             }
         }
@@ -171,52 +195,58 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func sectionButtonPressed(sender: UIButton) {
-        if sender.titleLabel!.text! == kCreationType.Goal.rawValue {
+        //  Switch on button title.
+        switch sender.titleLabel!.text! {
+        case kCreationType.Goal.rawValue:
+            //Code that collapses tableView section.
             if goalTableOpen == true && goalArray.count != 0 && tableView.indexPathsForSelectedRows() != nil {
-                    for selectedIndexPath in tableView.indexPathsForSelectedRows() as [NSIndexPath] {
-                        if selectedIndexPath.section == 0 {
-                            selectedGoalIndexPath = selectedIndexPath
-                            goalArray = [goalArray[selectedIndexPath.row]]
-                        }
+                //  Checks all selecteds indexPaths.
+                for selectedIndexPath in tableView.indexPathsForSelectedRows() as [NSIndexPath] {
+                    //  Check if indexPath is in goal section.
+                    if selectedIndexPath.section == 0 {
+                        //  Setup goalArray to only display selected cell.
+                        goalArray = [goalArray[selectedIndexPath.row]]
                     }
+                }
+                //  Displays only selected cell and automatically selects it.
                 tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
                 tableView.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: false, scrollPosition: UITableViewScrollPosition.None)
                 goalTableOpen = false
             }
+            //  Code that expands tableView section.
             else if goalTableOpen == false {
+                // Setup goalArray to display original goals.
                 goalArray = user.goalArray
+                //  Displays all goals.
                 tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
                 tableView.selectRowAtIndexPath(selectedGoalIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.None)
                 goalTableOpen = true
             }
             else {
-                println("ERROR: goalTableOpen == nil")
+                println("ERROR: Goal Section will not expand or collapse")
             }
-            println("goalTableOpen == \(goalTableOpen)")
-        }
-        else if sender.titleLabel!.text! == kCreationType.Objective.rawValue {
-            if objectiveTableOpen == true && objectiveArray.count != 0 {
-                if let indexPaths = tableView.indexPathsForSelectedRows() as? [NSIndexPath] {
-                    for selectedIndexPath in indexPaths {
-                        if selectedIndexPath.section == 1 {
-                            objectiveArray = [objectiveArray[selectedIndexPath.row]]
-                        }
+        case kCreationType.Objective.rawValue:
+            if objectiveTableOpen == true && objectiveArray.count != 0 && tableView.indexPathsForSelectedRows() != nil {
+                for selectedIndexPath in tableView.indexPathsForSelectedRows() as [NSIndexPath] {
+                    if selectedIndexPath.section == 1 {
+                        objectiveArray = [objectiveArray[selectedIndexPath.row]]
                     }
                 }
-                else {
-                    objectiveArray = []
-                }
                 tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
+                tableView.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1), animated: false, scrollPosition: UITableViewScrollPosition.None)
                 objectiveTableOpen = false
             }
             else if objectiveTableOpen == false {
                 objectiveArray = user.goalArray[selectedGoalIndexPath!.row].objectiveArray
                 tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
+                tableView.selectRowAtIndexPath(selectedObjectiveIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.None)
                 objectiveTableOpen = true
             }
-        }
-        else {
-            //add
+            else {
+                println("ERROR: Objective Section will not expand or collapse")
+            }
+        default:
+            println("step")
         }
     }
     
