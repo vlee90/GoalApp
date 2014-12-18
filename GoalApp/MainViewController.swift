@@ -27,7 +27,8 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var selectedGoalIndex: Int?
     var selectedObjectiveIndex: Int?
     var selectedStepIndex: Int?
-    var selectedRows: [NSIndexPath]?
+    
+    var selectedGoalIndexPath: NSIndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +43,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         setupValues()
         let range: NSRange = NSMakeRange(0, 3)
         tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Fade)
-        selectPreviousCells()
     }
     
 
@@ -75,9 +75,15 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        // Grabs an array of all indexPaths for all selected Rows in the tableview.
         if let indexPaths = tableView.indexPathsForSelectedRows() as? [NSIndexPath] {
+            // Create a dummy array to fill and swap in for selectedRows later
+            var newIndexPathArray = [NSIndexPath]()
+            // Search through array of all indexPaths for each selected row in the tableView.
             for selectedIndexPath in indexPaths {
+                // Will only look at selected indexes within the section in question.
                 if selectedIndexPath.section == indexPath.section {
+                    // deselects row that was selected before from the table.
                     tableView.deselectRowAtIndexPath(selectedIndexPath, animated: true)
                 }
             }
@@ -168,27 +174,27 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func sectionButtonPressed(sender: UIButton) {
         if sender.titleLabel!.text! == kCreationType.Goal.rawValue {
-            if goalTableOpen == true && goalArray.count != 0 {
-                if let indexPaths = tableView.indexPathsForSelectedRows() as? [NSIndexPath] {
-                    for selectedIndexPath in indexPaths {
+            if goalTableOpen == true && goalArray.count != 0 && tableView.indexPathsForSelectedRows() != nil {
+                    for selectedIndexPath in tableView.indexPathsForSelectedRows() as [NSIndexPath] {
                         if selectedIndexPath.section == 0 {
+                            selectedGoalIndexPath = selectedIndexPath
                             goalArray = [goalArray[selectedIndexPath.row]]
                         }
                     }
-                }
-                else {
-                    goalArray = []
-                }
                 tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
-                selectPreviousCells()
+                tableView.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: false, scrollPosition: UITableViewScrollPosition.None)
                 goalTableOpen = false
             }
             else if goalTableOpen == false {
                 goalArray = user.goalArray
                 tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
-                selectPreviousCells()
+                tableView.selectRowAtIndexPath(selectedGoalIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.None)
                 goalTableOpen = true
             }
+            else {
+                println("ERROR: goalTableOpen == nil")
+            }
+            println("goalTableOpen == \(goalTableOpen)")
         }
         else if sender.titleLabel!.text! == kCreationType.Objective.rawValue {
             if objectiveTableOpen == true && objectiveArray.count != 0 {
@@ -220,12 +226,12 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let toVC = self.storyboard?.instantiateViewControllerWithIdentifier(kStoryboardID.CreateVC.rawValue) as CreateViewController
         switch (sender.tag) {
         case 0:
-            selectedRows = tableView.indexPathsForSelectedRows() as? [NSIndexPath]
+//            selectedRows = tableView.indexPathsForSelectedRows() as? [NSIndexPath]
             toVC.type = kCreationType.Goal.rawValue
             navigationController?.pushViewController(toVC, animated: true)
         case 1:
             if goalCellSelected == true {
-                selectedRows = tableView.indexPathsForSelectedRows() as? [NSIndexPath]
+//                selectedRows = tableView.indexPathsForSelectedRows() as? [NSIndexPath]
                 toVC.type = kCreationType.Objective.rawValue
                 navigationController?.pushViewController(toVC, animated: true)
             }
@@ -237,7 +243,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
         default:
             if goalCellSelected == true && objectiveCellSelected == true {
-                selectedRows = tableView.indexPathsForSelectedRows() as? [NSIndexPath]
+//                selectedRows = tableView.indexPathsForSelectedRows() as? [NSIndexPath]
                 toVC.type = kCreationType.Step.rawValue
                 navigationController?.pushViewController(toVC, animated: true)
             }
@@ -274,14 +280,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         if selectedObjectiveIndex != nil {
             stepArray = objectiveArray[selectedObjectiveIndex!].stepArray
-        }
-    }
-    
-    func selectPreviousCells() {
-        if selectedRows != nil {
-            for selectedRow in selectedRows! {
-                tableView.selectRowAtIndexPath(selectedRow, animated: false, scrollPosition: UITableViewScrollPosition.None)
-            }
         }
     }
 }
