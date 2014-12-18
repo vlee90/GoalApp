@@ -12,9 +12,9 @@ class StorageController {
     
     var user = User()
     let dateFormatter = NSDateFormatter()
-    var selectedGoalIndex: Int?
-    var selectedObjectiveIndex: Int?
-    var selectedStepIndex: Int?
+    var selectedGoalIndexPath: NSIndexPath?
+    var selectedObjectiveIndexPath: NSIndexPath?
+    var selectedStepIndexPath: NSIndexPath?
     
     class var sharedInstance : StorageController {
         struct Static {
