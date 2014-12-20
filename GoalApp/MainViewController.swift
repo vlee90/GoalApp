@@ -178,7 +178,19 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
         var editAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Edit") { (action, indexPath) -> Void in
-            println("Edit Action")
+            let toVC = self.storyboard?.instantiateViewControllerWithIdentifier(kStoryboardID.CreateVC.rawValue) as CreateViewController
+            switch indexPath.section {
+            case 0:
+                toVC.type = kCreationType.Goal.rawValue
+                toVC.title = "Edit Goal"
+            case 1:
+                toVC.type = kCreationType.Objective.rawValue
+                toVC.title = "Edit Objective"
+            default :
+                toVC.type = kCreationType.Step.rawValue
+                toVC.title = "Edit Step"
+            }
+            self.navigationController?.pushViewController(toVC, animated: true)
         }
         editAction.backgroundColor = UIColor.greenColor()
         var deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.Normal, title: "Delete") { (action, indexPath) -> Void in
@@ -211,44 +223,10 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         deleteAction.backgroundColor = UIColor.redColor()
         
-        return [editAction, deleteAction]
+        return [deleteAction, editAction]
     }
-    
+    //  Implemented strictly to get build in "swipe" for tableViewRowActions.
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == UITableViewCellEditingStyle.Delete {
-            switch indexPath.section {
-            case 0:
-                goalArray.removeAtIndex(indexPath.row)
-                objectiveArray = []
-                stepArray = []
-                storageController.user.goalArray = goalArray
-                selectedGoalIndexPath = nil
-                storageController.selectedGoalIndexPath = selectedGoalIndexPath
-                let range = NSMakeRange(0, 3)
-                tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
-            case 1:
-                objectiveArray.removeAtIndex(indexPath.row)
-                stepArray = []
-                println("Section \(indexPath.section) Row: \(indexPath.row)")
-                storageController.user.goalArray[selectedGoalIndexPath!.row].objectiveArray = objectiveArray
-                selectedObjectiveIndexPath = nil
-                storageController.selectedObjectiveIndexPath = selectedObjectiveIndexPath
-                let range = NSMakeRange(1, 2)
-                tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
-            default:
-                stepArray.removeAtIndex(indexPath.row)
-                storageController.user.goalArray[selectedGoalIndexPath!.row].objectiveArray[selectedObjectiveIndexPath!.row].stepArray = stepArray
-                selectedStepIndexPath = nil
-                storageController.selectedStepIndexPath = selectedStepIndexPath
-                tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
-            }
-        }
-        else if editingStyle == UITableViewCellEditingStyle.Insert {
-            println("SUP")
-        }
-        else {
-            println("ERROR: commitEditingStyle editingStyle is neither Delete or Insert")
-        }
 
     }
     
@@ -356,12 +334,10 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let toVC = self.storyboard?.instantiateViewControllerWithIdentifier(kStoryboardID.CreateVC.rawValue) as CreateViewController
         switch (sender.tag) {
         case 0:
-//            selectedRows = tableView.indexPathsForSelectedRows() as? [NSIndexPath]
             toVC.type = kCreationType.Goal.rawValue
             navigationController?.pushViewController(toVC, animated: true)
         case 1:
             if selectedGoalIndexPath != nil {
-//                selectedRows = tableView.indexPathsForSelectedRows() as? [NSIndexPath]
                 toVC.type = kCreationType.Objective.rawValue
                 navigationController?.pushViewController(toVC, animated: true)
             }
@@ -373,7 +349,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
         default:
             if selectedGoalIndexPath != nil && selectedObjectiveIndexPath != nil {
-//                selectedRows = tableView.indexPathsForSelectedRows() as? [NSIndexPath]
                 toVC.type = kCreationType.Step.rawValue
                 navigationController?.pushViewController(toVC, animated: true)
             }
