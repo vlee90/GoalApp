@@ -30,6 +30,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         setUpTable()
         setupValues()
         tableView.allowsMultipleSelection = true
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Bordered, target: self, action: "enterEditMode")
 
     }
     
@@ -50,6 +51,16 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+//    func enterEditMode() {
+//        tableView.setEditing(true, animated: true)
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: "exitEditMode")
+//    }
+//    
+//    func exitEditMode() {
+//        tableView.setEditing(false, animated: true)
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Bordered, target: self, action: "enterEditMode")
+//    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch indexPath.section {
@@ -163,35 +174,57 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return 3
     }
 
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        println("row : \(indexPath.row)")
-        println("section: \(indexPath.section)")
-        switch indexPath.section {
-        case 0:
-            goalArray.removeAtIndex(indexPath.row)
-            objectiveArray = []
-            stepArray = []
-            storageController.user.goalArray = goalArray
-            selectedGoalIndexPath = nil
-            storageController.selectedGoalIndexPath = selectedGoalIndexPath
-            let range = NSMakeRange(0, 3)
-            tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
-        case 1:
-            objectiveArray.removeAtIndex(indexPath.row)
-            stepArray = []
-            println("Section \(indexPath.section) Row: \(indexPath.row)")
-            storageController.user.goalArray[selectedGoalIndexPath!.row].objectiveArray = objectiveArray
-            selectedObjectiveIndexPath = nil
-            storageController.selectedObjectiveIndexPath = selectedObjectiveIndexPath
-            let range = NSMakeRange(1, 2)
-            tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
-        default:
-            stepArray.removeAtIndex(indexPath.row)
-            storageController.user.goalArray[selectedGoalIndexPath!.row].objectiveArray[selectedObjectiveIndexPath!.row].stepArray = stepArray
-            selectedStepIndexPath = nil
-            storageController.selectedStepIndexPath = selectedStepIndexPath
-            tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
+        var editAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Edit") { (action, indexPath) -> Void in
+            tableView.setEditing(false, animated: true)
+            println("Edit Action")
         }
+        editAction.backgroundColor = UIColor.greenColor()
+        var deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.Normal, title: "Delete") { (action, indexPath) -> Void in
+            tableView.setEditing(false, animated: true)
+            println("Delete Action")
+        }
+        deleteAction.backgroundColor = UIColor.redColor()
+        
+        return [editAction, deleteAction]
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            switch indexPath.section {
+            case 0:
+                goalArray.removeAtIndex(indexPath.row)
+                objectiveArray = []
+                stepArray = []
+                storageController.user.goalArray = goalArray
+                selectedGoalIndexPath = nil
+                storageController.selectedGoalIndexPath = selectedGoalIndexPath
+                let range = NSMakeRange(0, 3)
+                tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
+            case 1:
+                objectiveArray.removeAtIndex(indexPath.row)
+                stepArray = []
+                println("Section \(indexPath.section) Row: \(indexPath.row)")
+                storageController.user.goalArray[selectedGoalIndexPath!.row].objectiveArray = objectiveArray
+                selectedObjectiveIndexPath = nil
+                storageController.selectedObjectiveIndexPath = selectedObjectiveIndexPath
+                let range = NSMakeRange(1, 2)
+                tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
+            default:
+                stepArray.removeAtIndex(indexPath.row)
+                storageController.user.goalArray[selectedGoalIndexPath!.row].objectiveArray[selectedObjectiveIndexPath!.row].stepArray = stepArray
+                selectedStepIndexPath = nil
+                storageController.selectedStepIndexPath = selectedStepIndexPath
+                tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
+            }
+        }
+        else if editingStyle == UITableViewCellEditingStyle.Insert {
+            println("SUP")
+        }
+        else {
+            println("ERROR: commitEditingStyle editingStyle is neither Delete or Insert")
+        }
+
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -208,10 +241,9 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         sectionView.addSubview(sectionButton)
         
         //Create createButton
-        let createButton = UIButton(frame: CGRectMake(sectionButton.frame.width * 0.9, sectionButton.frame.height * 0.25, sectionButton.frame.height * 0.5, sectionButton.frame.height * 0.5))
-        createButton.backgroundColor = UIColor.greenColor()
+        let createButton = UIButton.buttonWithType(UIButtonType.ContactAdd) as UIButton
+        createButton.frame = CGRectMake(sectionButton.frame.width * 0.9, sectionButton.frame.height * 0.25, sectionButton.frame.height * 0.5, sectionButton.frame.height * 0.5)
         createButton.addTarget(self, action: "createButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
-        createButton.setTitle("+", forState: UIControlState.Normal)
         createButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
         createButton.contentVerticalAlignment = UIControlContentVerticalAlignment.Center
         
