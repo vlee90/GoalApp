@@ -1,5 +1,5 @@
 //
-//  ObjectiveTableViewCell.swift
+//  GoalTableViewCell.swift
 //  GoalApp
 //
 //  Created by Vincent Lee on 12/5/14.
@@ -8,9 +8,11 @@
 
 import UIKit
 
-class ObjectiveTableViewCell: UITableViewCell {
-    @IBOutlet weak var objectiveLabel: UILabel!
+class TableCell: UITableViewCell {
+    @IBOutlet weak var detailLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var dateView: UIView!
+    var cellSelected: Bool?
     
     override func awakeFromNib() {
         super.awakeFromNib()
