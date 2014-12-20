@@ -25,6 +25,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var selectedObjectiveIndexPath: NSIndexPath?
     var selectedStepIndexPath: NSIndexPath?
     
+//  MARK: - Start Up
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTable()
@@ -62,6 +63,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Bordered, target: self, action: "enterEditMode")
 //    }
     
+//  MARK: - TableView
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch indexPath.section {
         case 0:
@@ -268,6 +270,8 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return sectionView
         }
     }
+    
+// MARK: - UIButton Actions
     
     func sectionButtonPressed(sender: UIButton) {
         //  Switch on button title.
