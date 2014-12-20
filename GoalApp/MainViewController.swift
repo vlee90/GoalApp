@@ -79,7 +79,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             //  Save the selected objective's indexPath
             selectedObjectiveIndexPath = indexPath
             storageController.selectedObjectiveIndexPath = selectedObjectiveIndexPath
-            println(selectedObjectiveIndexPath!.row)
             //  Loads steps from the selected objective
             let selectedObjective = objectiveArray[selectedObjectiveIndexPath!.row]
             stepArray = selectedObjective.stepArray

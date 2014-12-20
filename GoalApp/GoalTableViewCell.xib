@@ -14,36 +14,43 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="DueDate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHi-4k-hfo">
-                        <rect key="frame" x="364" y="18" width="67" height="57"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Goal" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kvF-LV-y4k">
-                        <rect key="frame" x="28" y="18" width="316" height="57"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tsX-65-SUd">
+                        <rect key="frame" x="344" y="9" width="107" height="77"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" fixedFrame="YES" text="Month" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHi-4k-hfo">
+                                <rect key="frame" x="8" y="8" width="91" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" fixedFrame="YES" text="Year" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1d-G8-D0N">
+                                <rect key="frame" x="8" y="36" width="91" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.89019675590000003" blue="0.36205195350000002" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Goal" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kvF-LV-y4k">
+                        <rect key="frame" x="28" y="19" width="316" height="57"/>
+                        <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="YHi-4k-hfo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="10" id="23m-ly-fHf"/>
                     <constraint firstItem="kvF-LV-y4k" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="20" id="A99-gO-p8P"/>
-                    <constraint firstItem="YHi-4k-hfo" firstAttribute="leading" secondItem="kvF-LV-y4k" secondAttribute="trailing" constant="20" id="BUa-wf-Auq"/>
-                    <constraint firstAttribute="centerY" secondItem="YHi-4k-hfo" secondAttribute="centerY" id="Oer-8M-2oB"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="YHi-4k-hfo" secondAttribute="trailing" constant="20" id="Pij-JA-r5V"/>
                     <constraint firstAttribute="centerY" secondItem="kvF-LV-y4k" secondAttribute="centerY" id="YOx-Dm-fD4"/>
                     <constraint firstItem="kvF-LV-y4k" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="10" id="bBL-YV-zH5"/>
                     <constraint firstAttribute="bottomMargin" secondItem="kvF-LV-y4k" secondAttribute="bottom" constant="10" id="v7s-Ls-ZZn"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="YHi-4k-hfo" secondAttribute="bottom" constant="10" id="yNl-BS-vTG"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="dateLabel" destination="YHi-4k-hfo" id="lSS-HO-wij"/>
                 <outlet property="goalLabel" destination="kvF-LV-y4k" id="Wp2-ev-y5a"/>
             </connections>
-            <point key="canvasLocation" x="331.5" y="242"/>
+            <point key="canvasLocation" x="331.5" y="239"/>
         </tableViewCell>
     </objects>
 </document>
