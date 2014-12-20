@@ -178,13 +178,36 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
         var editAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Edit") { (action, indexPath) -> Void in
-            tableView.setEditing(false, animated: true)
             println("Edit Action")
         }
         editAction.backgroundColor = UIColor.greenColor()
         var deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.Normal, title: "Delete") { (action, indexPath) -> Void in
-            tableView.setEditing(false, animated: true)
-            println("Delete Action")
+            switch indexPath.section {
+            case 0:
+                self.goalArray.removeAtIndex(indexPath.row)
+                self.objectiveArray = []
+                self.stepArray = []
+                self.storageController.user.goalArray = self.goalArray
+                self.selectedGoalIndexPath = nil
+                self.storageController.selectedGoalIndexPath = self.selectedGoalIndexPath
+                let range = NSMakeRange(0, 3)
+                tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
+            case 1:
+                self.objectiveArray.removeAtIndex(indexPath.row)
+                self.stepArray = []
+                self.storageController.user.goalArray[self.selectedGoalIndexPath!.row].objectiveArray = self.objectiveArray
+                self.selectedObjectiveIndexPath = nil
+                self.storageController.selectedObjectiveIndexPath = self.selectedObjectiveIndexPath
+                let range = NSMakeRange(1, 2)
+                tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
+            default:
+                self.stepArray.removeAtIndex(indexPath.row)
+                self.storageController.user.goalArray[self.selectedGoalIndexPath!.row].objectiveArray[self.selectedObjectiveIndexPath!.row].stepArray = self.stepArray
+                self.selectedStepIndexPath = nil
+                self.storageController.selectedStepIndexPath = self.selectedStepIndexPath
+                tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
+            }
+
         }
         deleteAction.backgroundColor = UIColor.redColor()
         
