@@ -60,20 +60,21 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             //  Loads objectives from the selected goal.
             let selectedGoal = goalArray[selectedGoalIndexPath!.row]
             objectiveArray = selectedGoal.objectiveArray
-            //  Loads steps from selected objective.
-            if objectiveArray.count != 0 {
-                let selectedObjective = selectedGoal.objectiveArray[selectedObjectiveIndexPath!.row]
-                stepArray = selectedObjective.stepArray
+            //  Loads steps from first objective
+            if objectiveArray.isEmpty == true {
+                stepArray = []
+                let range = NSMakeRange(1, 2)
+                tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
+            }
+            else if objectiveArray.isEmpty == false {
+                selectedObjectiveIndexPath = NSIndexPath(forRow: 0, inSection: 1)
+                stepArray = objectiveArray[selectedObjectiveIndexPath!.row].stepArray
+                let range = NSMakeRange(1, 2)
+                tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
             }
             else {
-                stepArray = []
-                selectedObjectiveIndexPath = nil
-                selectedStepIndexPath = nil
+                println("objectiveArray is nil when goal is selected.")
             }
-
-            selectedGoalIndexPath = indexPath
-            let range: NSRange = NSMakeRange(1, 2)
-            tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Fade)
         case 1:
             //  Save the selected objective's indexPath
             selectedObjectiveIndexPath = indexPath
@@ -95,9 +96,15 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         switch indexPath.section {
         case 0:
             selectedGoalIndexPath = nil
+            objectiveArray = []
+            stepArray = []
+            let range = NSMakeRange(1, 2)
+            tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
             println("Goal was deselected")
         case 1:
             selectedObjectiveIndexPath = nil
+            stepArray = []
+            tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
             println("Objective was deselected")
         default:
             println("Step was deselected")
@@ -315,7 +322,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if selectedGoalIndexPath != nil {
             objectiveArray = goalArray[selectedGoalIndexPath!.row].objectiveArray
         }
-        if selectedObjectiveIndexPath != nil {
+        if selectedObjectiveIndexPath != nil && objectiveArray.isEmpty == false {
             stepArray = objectiveArray[selectedObjectiveIndexPath!.row].stepArray
         }
     }

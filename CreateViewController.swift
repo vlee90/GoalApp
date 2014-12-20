@@ -77,7 +77,7 @@ class CreateViewController: UIViewController {
         if selectedGoalIndexPath != nil {
             objectiveArray = goalArray[selectedGoalIndexPath!.row].objectiveArray
         }
-        if selectedObjectiveIndexPath != nil {
+        if selectedObjectiveIndexPath != nil && objectiveArray.isEmpty == false {
             stepArray = objectiveArray[selectedObjectiveIndexPath!.row].stepArray
         }
     }
