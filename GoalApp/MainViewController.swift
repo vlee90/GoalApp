@@ -129,24 +129,22 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("TABLE_CELL", forIndexPath: indexPath) as TableCell
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("GOAL_CELL", forIndexPath: indexPath) as GoalTableViewCell
-            cell.goalLabel.text = goalArray[indexPath.row].goal
-            cell.dateLabel.text = goalArray[indexPath.row].dueDate
-            return cell
+            cell.detailLabel.text = goalArray[indexPath.row].goal
+            let date = goalArray[indexPath.row].dueDate
+            cell.dateLabel.text = date
         }
         else if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("OBJECTIVE_CELL", forIndexPath: indexPath) as ObjectiveTableViewCell
-            cell.objectiveLabel.text = objectiveArray[indexPath.row].objective
+            cell.detailLabel.text = objectiveArray[indexPath.row].objective
             cell.dateLabel.text = objectiveArray[indexPath.row].dueDate
-            return cell
         }
         else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("STEP_CELL", forIndexPath: indexPath) as StepTableViewCell
-            cell.stepLabel.text = stepArray[indexPath.row].step
+            cell.detailLabel.text = stepArray[indexPath.row].step
             cell.dateLabel.text = stepArray[indexPath.row].dueDate
-            return cell
         }
+        cell.detailLabel.adjustsFontSizeToFitWidth = true
+        return cell
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -164,7 +162,37 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 3
     }
-    
+
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        println("row : \(indexPath.row)")
+        println("section: \(indexPath.section)")
+        switch indexPath.section {
+        case 0:
+            goalArray.removeAtIndex(indexPath.row)
+            objectiveArray = []
+            stepArray = []
+            storageController.user.goalArray = goalArray
+            selectedGoalIndexPath = nil
+            storageController.selectedGoalIndexPath = selectedGoalIndexPath
+            let range = NSMakeRange(0, 3)
+            tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
+        case 1:
+            objectiveArray.removeAtIndex(indexPath.row)
+            stepArray = []
+            println("Section \(indexPath.section) Row: \(indexPath.row)")
+            storageController.user.goalArray[selectedGoalIndexPath!.row].objectiveArray = objectiveArray
+            selectedObjectiveIndexPath = nil
+            storageController.selectedObjectiveIndexPath = selectedObjectiveIndexPath
+            let range = NSMakeRange(1, 2)
+            tableView.reloadSections(NSIndexSet(indexesInRange: range), withRowAnimation: UITableViewRowAnimation.Automatic)
+        default:
+            stepArray.removeAtIndex(indexPath.row)
+            storageController.user.goalArray[selectedGoalIndexPath!.row].objectiveArray[selectedObjectiveIndexPath!.row].stepArray = stepArray
+            selectedStepIndexPath = nil
+            storageController.selectedStepIndexPath = selectedStepIndexPath
+            tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
+        }
+    }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         //Create View
@@ -303,12 +331,8 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func setUpTable() {
         tableView.dataSource = self
         tableView.delegate = self
-        let goalNib = UINib(nibName: "GoalTableViewCell", bundle: NSBundle.mainBundle())
-        let objectiveNib = UINib(nibName: "ObjectiveTableViewCell", bundle: NSBundle.mainBundle())
-        let stepNib = UINib(nibName: "StepTableViewCell", bundle: NSBundle.mainBundle())
-        tableView.registerNib(goalNib, forCellReuseIdentifier: "GOAL_CELL")
-        tableView.registerNib(objectiveNib, forCellReuseIdentifier: "OBJECTIVE_CELL")
-        tableView.registerNib(stepNib, forCellReuseIdentifier: "STEP_CELL")
+        let tableCell = UINib(nibName: "TableCell", bundle: NSBundle.mainBundle())
+        tableView.registerNib(tableCell, forCellReuseIdentifier: "TABLE_CELL")
     }
     
     //  Pulls values from storageController
